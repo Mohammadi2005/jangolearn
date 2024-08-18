@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <div class = "card">
+        {% for item in show %}
+        <a class="card-body" href="{% url 'home:detail' item.slug %}">{{ item.id }} _ {{ item.title }}</a><br>
+        <!-- وقتی روی لینک کلیک بشه وارد اپ هوم و سپس وارد ادرس دیتیلش میشه -->
+        {{ item.slug }}<br>
+        {{ item.created }}<br>
+        <img src="{{item.thumbnail.url}}" width="600" height="400"><br>
+        {% endfor %}
+        </div>
+</body>
+</html>
