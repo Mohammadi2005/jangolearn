@@ -37,7 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'home'
+    # 'home' اینطوری هم میشه نام اپ رو ورد ولی ولی به شکل زیر بهتره
+    'home.apps.HomeConfig',  #  به این شکل معرفی کردن اپ باعث میه بتونیم به تنظیمات اپ دسترسی داشته باشیم
+    'extensions'
 ]
 
 MIDDLEWARE = [
@@ -104,9 +106,11 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.1/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+# LANGUAGE_CODE = 'en-us'  #  این ادمین پنل رو انگلیسی میکنه
+LANGUAGE_CODE = 'fa-ir'  #  ین ادمین پنل رو فارسی می کنه
 
-TIME_ZONE = 'UTC'
+# TIME_ZONE = 'UTC'  زمان رو توی مدل مشخص میکنه بر حسب منطقه مکانی
+TIME_ZONE = 'Asia/Tehran'
 
 USE_I18N = True
 
