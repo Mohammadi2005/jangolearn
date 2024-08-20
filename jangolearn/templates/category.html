@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+<!-- این کد از home.html کپی شده چون هر دو شبیه هم هستن و ارتیل ها رو نشون میده -->
 {% load static %}
 {% block title %} Home Amir {% endblock %}
 
@@ -25,7 +26,8 @@
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-7">
 
-                    {% for item in articles %}
+<!-- نجیر published رو که خودم ایجاد کردم رو اینجا ازش استفاده میکنم -->
+                    {% for item in category.articles.all %} <!-- از طریق کتگوی به ارتیکل دیترسی پیدا میکنم -->
                         <!-- Post preview-->
                         <div class="post-preview">
                             <a class = "card-body" href = "{% url 'home:detail' item.slug %}">

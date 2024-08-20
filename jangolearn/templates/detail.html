@@ -4,12 +4,12 @@
 
 {% block pageHeader %}
         <!-- Page Header-->
-        <header class="masthead" style="background-image: url('{{detail.thumbnail.url}}')">
+        <header class="masthead" style="background-image: url('{{article.thumbnail.url}}')">
             <div class="container position-relative px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-md-10 col-lg-8 col-xl-7">
                         <div class="site-heading">
-                            <h1>{{ detail.title  }}</h1>
+                            <h1>{{ article.title  }}</h1>
                             <span class="subheading">A Blog Theme by Start Bootstrap</span>
                         </div>
                     </div>
@@ -18,18 +18,18 @@
         </header>
 {% endblock %}
 <!-- Post Content-->
-{% block title %} {{ detail.title  }} {% endblock %}
+{% block title %} {{ article.title  }} {% endblock %}
 
 {% block main %}
         <article class="mb-4">
             <div class="container px-4 px-lg-5">
                 <div class="row gx-4 gx-lg-5 justify-content-center">
                     <div class="col-md-10 col-lg-8 col-xl-7">
-                        {{ detail.description|linebreaks }}
+                        {{ article.description|linebreaks }}
 <!-- پاراگراف بندی میکنه -->
-                        {{ detail.created }}
+<!--                        {{ article.created }}-->
                     </div>
-                    <h3>{{ deteil.created }}</h3>
+                    <h5>{{ article.created }}</h5>
                 </div>
             </div>
         </article>

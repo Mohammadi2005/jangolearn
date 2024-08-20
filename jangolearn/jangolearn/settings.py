@@ -39,7 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # 'home' اینطوری هم میشه نام اپ رو ورد ولی ولی به شکل زیر بهتره
     'home.apps.HomeConfig',  #  به این شکل معرفی کردن اپ باعث میه بتونیم به تنظیمات اپ دسترسی داشته باشیم
-    'extensions'
+    'extensions',
+    # 'templatetags'
 ]
 
 MIDDLEWARE = [
