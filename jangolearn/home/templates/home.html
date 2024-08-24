@@ -1,5 +1,4 @@
 {% extends 'base.html' %}
-<!-- این کد از home.html کپی شده چون هر دو شبیه هم هستن و ارتیل ها رو نشون میده -->
 {% load static %}
 {% block title %} Home Amir {% endblock %}
 
@@ -26,8 +25,7 @@
             <div class="row gx-4 gx-lg-5 justify-content-center">
                 <div class="col-md-10 col-lg-8 col-xl-7">
 
-<!-- نجیر published رو که خودم ایجاد کردم رو اینجا ازش استفاده میکنم -->
-                    {% for item in category.articles.all %} <!-- از طریق کتگوی به ارتیکل دیترسی پیدا میکنم -->
+                    {% for item in articles %}
                         <!-- Post preview-->
                         <div class="post-preview">
                             <a class = "card-body" href = "{% url 'home:detail' item.slug %}">
@@ -53,7 +51,14 @@
                     {% endfor %}
 
                     <!-- Pager-->
-                    <div class="pager-botton"><a class="btn btn-primary text-uppercase" href="#!">→ پست های قدیمی </a></div>
+                    {% if articles.has_next %} <!-- بررسی میکنه ایا پست قدیمی تری هم وجود داره -->
+                        <div class="pager-botton"><a class="btn btn-primary float-right text-uppercase m-lg-4" href="{% url 'home:home' %}?page={{articles.next_page_number}}"> پست های قدیمی -> </a></div>
+                    {% endif %}
+                    {% if articles.has_previous %} <!-- بررسی میکنه ایا پست جدید تری هم وجود داره -->
+                        <div class="pager-botton"><a class="btn btn-primary text-uppercase m-lg-4" href="{% url 'home:home' %}?page={{articles.previous_page_number}}"><- پست های جدید </a></div>
+                    {% endif %}
+                    <!-- <div class="pager-botton"><a class="btn btn-primary text-uppercase" href="#!">→ پست های جدید </a></div>-->
+
                 </div>
             </div>
         </div>

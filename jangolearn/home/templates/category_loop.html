@@ -1,0 +1,10 @@
+<ul class="navbar-nav ms-auto py-4 py-lg-4 ">
+  {% for cat in cat.children.all %}
+    <li class="nav-item">
+      <a class="nav-link px-lg-3 py-4 py-lg-6" href="{% url 'home:category' cat.slug %}">{{cat.title}}</a>
+      {% if cat.children.all %}  <!-- تا هر چی کتگوری ها بچه داشته باشن بچه ها رو نشون میده -->
+        {% include 'category_loop.html' %}
+      {% endif %}
+    </li>
+  {% endfor %}
+</ul>

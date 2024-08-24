@@ -1,10 +1,11 @@
 from django.db import models
 from django.utils import timezone
 from extensions.utils import change_to_jalali
+from django.utils.html import format_html # برای تبدیل فرمت به جنگو استفاده میشه
 
 # my maneger
 class ArticleManager(models.Manager):  #  ساخت منیجیر
-    def published(self):
+    def published(self):  # ارتیکل های منتشر شده رو نشون میده
         return self.filter(status='P')
 
 
@@ -12,6 +13,8 @@ class ArticleManager(models.Manager):  #  ساخت منیجیر
 
 # my models
 class Category(models.Model):
+    # ForeignKey یعنی چند فرززند و یک پدر داشته باشه
+    parent = models.ForeignKey('self', null=True, blank=True, related_name='children', on_delete=models.SET_NULL, verbose_name='زیر دسته')
     #  توی ادمین هم کتگوری رو فراخوانی میکنم و و براش کلاس میزنم
     title = models.CharField(max_length=100, verbose_name="عنوان دسته بندی")
     slug = models.SlugField(max_length=100, unique=True, verbose_name="ادرس دسته بندی")
@@ -21,7 +24,8 @@ class Category(models.Model):
     class Meta:  # ین کلاس برای تنظیمات مدل هست
         verbose_name_plural = 'دسته بندی ها'
         verbose_name = 'دسته بندی'
-        ordering = ['position'] # می خوام رکورد ها بر اساس پوزیشن و به صورت صعودی مرتب بشه
+    # عبارت parent__id باعث میشه اول فقط پدر ها رو بر اساس ایدی شون مرتب کنه و بعد فرزندان رو
+        ordering = ['parent__id', 'position'] # می خوام رکورد ها بر اساس پوزیشن و به صورت صعودی مرتب بشه
 
     def __str__(self):
         return self.title
@@ -33,8 +37,10 @@ class Article(models.Model):
     )
     title = models.CharField(max_length=100, verbose_name="عنوان مقاله")
     slug = models.SlugField(max_length=100, unique=True, verbose_name="ادرس مقاله")  #  ادرس
+##############################################################################
     category = models.ManyToManyField(Category, verbose_name="دسته بندی", related_name="articles")  #  برای دسته بندی استفاده میشه
     # عبارت related_name="article" باعث میشه بتونم از طریق category به مقالات دسترسی داشته باشم چون ManyToManyField هستش
+##############################################################################
     description = models.TextField(verbose_name="محتوا")  #
     thumbnail = models.ImageField(upload_to="thumbnails", verbose_name="تصویر مقاله")
     published = models.DateTimeField(default=timezone.now, verbose_name='زمان انتشار مقاله')  #  زمان انتشار
@@ -51,12 +57,12 @@ class Article(models.Model):
     def jpublished(self):  # ین تابع تایم رو برای تغییرات به تابع میفرسته تا تاریخ به شمسی بشه
         return change_to_jalali(self.published)
 
-    def category_status(self):
+    def category_status(self):  # اگر توی کتگوری گفته شده باشه نمایش داده شود انگاه status = True
         return self.category.filter(status=True)
 
     objects = ArticleManager()  # منیجر ArticleManeger به قابلیت های منیجر objects اضافه میشه
 
-
-    # def category_to_string(self, obj):
-    #     # return "category"
-    #     return ", ".join([category.title for category in obj.category.all()])
+    def thumbnail_tag(self): # این تابع برای نمایش تصویر هستش
+        # از تگ اچ تی ام ال استفاده می کنم و format_html رمت عکی رو به جنگو تبدیل می کنه
+        return format_html(f"<img width = 100 height = 75 style = border-radius:6px src='{self.thumbnail.url}'>")
+    thumbnail_tag.short_description = "تصویر"

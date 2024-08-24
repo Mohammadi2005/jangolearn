@@ -34,14 +34,21 @@
                     Menu
                     <i class="fas fa-bars"></i>
                 </button>
-                <div class="collapse navbar-collapse" id="navbarResponsive">
-                    <ul class="navbar-nav ms-auto py-4 py-lg-0">
-                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'home:home' %}">خانه</a></li>
-                        {% for cat in categories %}
-                             <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'home:category' cat.slug %}">{{cat.title}}</a></li>
-                        {% endfor %}
-                    </ul>
-                </div>
+                    <div class="collapse navbar-collapse subnav" id="navbarResponsive">
+                            <ul class="navbar-nav ms-auto py-4 py-lg-0 m-lg-0">
+                                <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'home:home' %}">خانه</a></li>
+                                {% for cat in categories %}
+                                    {% if cat.parent == null %} <!-- ین باعث میشه فقط کتگوری ایی که پدر هستند و خودشون پدر ندارن رو توی نوار نشون بده -->
+                                        <li class="nav-item"><a class="nav-link px-lg-3 py-3 py-lg-4" href="{% url 'home:category' cat.slug %}">{{cat.title}}</a></li>
+                                        {% if cat.children.all %}  <!-- کتگوری های اولیه رو میگیره و میره سراغ حلقه زدن برای نسل های بعد کتگوری ها -->
+                                            {% include 'category_loop.html' %}
+                                        {% endif %}
+                                    {% endif %}
+                                {% endfor %}
+                            </ul>
+                        </div>
+
+
             </div>
         </nav>
         {% block pageHeader %}

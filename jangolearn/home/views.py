@@ -1,12 +1,17 @@
+from django.core.paginator import Paginator # برای ساخت پیج نیشن استفاده میشه
 from django.shortcuts import render, get_object_or_404  # برای مدیریت خطای ادرس اشتباه 404 رو فرامیخونم
 from django.http import JsonResponse  #  برای جیسون برگردوندن
 from .models import Article, Category # مدل ارتیکل رو ایوپرت می کنم تا به وسیله اون اطلاعات رو از دیتابیس بگیرم و توی ویو نایش بدم
 
 def home(request):
 
+    paginator = Paginator(Article.objects.all(), 5) # همه ارتیکل ها رو میگیره و هر 5 تا رو توی یک پنجره نشون میده
+    page = request.GET.get('page')
+    Articles = paginator.get_page(page)
     me = {
         # 'articles': Article.objects.all().filter(request).order_by('published'), فیلتر ه میکنه و مبنای مرتب شدن رو هم میده
-        'articles': Article.objects.all(),
+        # 'articles': Article.objects.all(),
+        'articles': Articles,
         'categories': Category.objects.all().filter(status=True),
     }
     return render(request, 'home.html', me)
